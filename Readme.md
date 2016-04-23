@@ -1,4 +1,4 @@
-# Connectore for the Niko Home Control API
+# Connector for the Niko Home Control API
 
 ## Init
 
