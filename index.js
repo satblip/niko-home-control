@@ -1,10 +1,9 @@
-var Promise = require('bluebird');
-var tcpClient = require('tcp-client');
+var Client = require('./lib/tcp_connector');
 
-var client = null;
+var tcpClient = null;
 
 var init = function (options) {
-  client = tcpClient.createClient(options);
+  tcpClient = new Client(options);
 };
 
 var generateError = function (errorCode) {
@@ -25,32 +24,27 @@ var generateError = function (errorCode) {
 };
 
 var command = function (command) {
-  return new Promise(function (resolve, reject) {
-    client.request('{"cmd": "startevents"}', function (error, message) {
-      if (error) {
-        reject(error);
+  return tcpClient.request('{"cmd": "startevents"}')
+    .then(function () {
+      return tcpClient.request(command);
+    })
+    .then(function (response) {
+      var result = JSON.parse(response);
+
+      if (result.data.error > 0) {
+        throw (generateError(result.data.error));
       }
 
-      client
-        .request(command, function (error, response) {
-          if (error) {
-            reject(error);
-          }
-
-          response = JSON.parse(response);
-
-          if (response.data.error > 0) {
-            reject(generateError(response.data.error));
-          }
-
-          resolve(response.data);
-        });
+      return result;
     });
-  });
 };
 
 var listActions = function () {
   return command('{"cmd": "listactions"}');
+};
+
+var listLocations = function () {
+  return command('{"cmd": "listlocations"}');
 };
 
 var listEnergy = function () {
@@ -68,6 +62,7 @@ var executeActions = function (id, value) {
 module.exports = {
   init: init,
   command: command,
+  listLocations: listLocations,
   listActions: listActions,
   listEnergy: listEnergy,
   systemInfo: systemInfo,

@@ -4,8 +4,7 @@
   "description": "A connector for the Niko Home Control API",
   "main": "index.js",
   "dependencies": {
-    "bluebird": "^3.3.5",
-    "tcp-client": "^1.0.8"
+    "bluebird": "3.4.1"
   },
   "devDependencies": {},
   "scripts": {

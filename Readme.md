@@ -6,11 +6,21 @@
 niko.init({
   ip: 'xxx.xxx.xxx.xxx',
   port: 8000,
-  timeout: 5000
+  timeout: 20000
 });
 ```
 
 ## Usage
+
+### Get the list of available locations
+
+```js
+niko
+  .listLocations()
+  .then(function (response) {
+    console.log(response);
+  });
+```
 
 ### Get the list of available actions
 
