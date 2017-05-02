@@ -1,12 +1,12 @@
-var Client = require('./lib/tcp_connector');
+const tcp = require('./lib/tcp_connector');
 
 var tcpClient = null;
 
-var init = function (options) {
-  tcpClient = new Client(options);
+const init = (options) => {
+  tcpClient = new tcp.Client(options);
 };
 
-var generateError = function (errorCode) {
+const generateError = (errorCode) => {
   var errorMessage = null;
 
   switch (errorCode) {
@@ -23,13 +23,10 @@ var generateError = function (errorCode) {
   return new Error(errorMessage);
 };
 
-var command = function (command) {
-  return tcpClient.request('{"cmd": "startevents"}')
-    .then(function () {
-      return tcpClient.request(command);
-    })
+const command = (command) => {
+  return tcpClient.request(command)
     .then(function (response) {
-      var result = JSON.parse(response);
+      const result = JSON.parse(response);
 
       if (result.data.error > 0) {
         throw (generateError(result.data.error));
@@ -39,23 +36,23 @@ var command = function (command) {
     });
 };
 
-var listActions = function () {
+const listActions = () => {
   return command('{"cmd": "listactions"}');
 };
 
-var listLocations = function () {
+const listLocations = () => {
   return command('{"cmd": "listlocations"}');
 };
 
-var listEnergy = function () {
+const listEnergy = () => {
   return command('{"cmd": "listenergy"}');
 };
 
-var systemInfo = function () {
+const systemInfo = () => {
   return command('{"cmd": "systeminfo"}');
 };
 
-var executeActions = function (id, value) {
+const executeActions = (id, value) => {
   return command('{"cmd": "executeactions", "id":' + id + ', "value1": ' + value + '}');
 };
 
@@ -66,5 +63,6 @@ module.exports = {
   listActions: listActions,
   listEnergy: listEnergy,
   systemInfo: systemInfo,
-  executeActions: executeActions
+  executeActions: executeActions,
+  events: tcp.eventsBus
 };

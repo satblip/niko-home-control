@@ -3,12 +3,17 @@
 ## Init
 
 ```js
+const niko = require('niko-home-control');
+
 niko.init({
   ip: 'xxx.xxx.xxx.xxx',
   port: 8000,
-  timeout: 20000
+  timeout: 20000,
+  events: true
 });
 ```
+
+`events` enables direct events from the controller, such as energy consumption and actions states.
 
 ## Usage
 
@@ -61,4 +66,20 @@ niko
   .then(function (response) {
     console.log(response);
   });
+```
+
+### Reveive energy consumption events
+
+```js
+niko.events.on('getlive', (data) => {
+  console.log(data, 'live');
+});
+```
+
+### Reveive actions states events
+
+```js
+niko.events.on('listactions', (data) => {
+  console.log(data, 'actions');
+});
 ```
