@@ -1,6 +1,6 @@
 {
   "name": "niko-home-control",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "A connector for the Niko Home Control API",
   "main": "index.js",
   "dependencies": {
