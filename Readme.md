@@ -1,5 +1,7 @@
 # Connector for the Niko Home Control API
 
+[![Known Vulnerabilities](https://snyk.io/test/github/satblip/niko-home-control/badge.svg)](https://snyk.io/test/github/satblip/niko-home-control)
+
 ## Init
 
 ```js
